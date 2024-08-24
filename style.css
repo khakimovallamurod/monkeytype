@@ -13,18 +13,21 @@ body {
 div {
     background-color: rgba(66, 135, 245);
     border-radius: 8px;
+    width: 840px;
 }
-h2 {
+h1 {
     text-align: center;
     color: #f4f4f4;
 }
 table {
     border-collapse: collapse;
     width: 100%;
-    max-width: 600px;
+    max-width: 840px;
     background-color: #ffffff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+    font-size: 25px;
+    font-family:'Times New Roman', Times, serif' 
+    
 }
 
 th, td {
@@ -44,4 +47,15 @@ tr:nth-child(even) {
 
 tr:hover {
     background-color: #e0e0e0;
+}
+
+@media (max-width: 600px) {
+    th, td {
+        font-size: 0.875rem; /* smaller font size for mobile */
+        padding: 10px 12px;
+    }
+
+    h1 {
+        font-size: 1.25rem; /* smaller font size for mobile */
+    }
 }

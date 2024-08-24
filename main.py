@@ -10,7 +10,7 @@ def get_wpm_accuracy(username:str,time:int)->dict:
     time = data['data']['personalBests']['time'].get(str(time),0)
 
     if time == 0:
-        return {'wpm':0,'accuracy':0}
+        return {'wpm':0.0,'accuracy':0.0}
     # Get accuracy
     accuracy = time[0].get('acc')
     # Get wpm
@@ -57,7 +57,7 @@ def get_users_html_convert(user_data: list, result_image_path: str):
     for idx,user in enumerate(user_data):
         results += f"""
             <tr>
-                <td>{"🥇 "+user['full_name'] if idx==0 else "🥈 "+user['full_name'] if idx==1 else "🥉 "+user['full_name'] if idx==2 else str(idx+1)+'. '+user['full_name']}</td>
+                <td>{"🥇 "+user['full_name'].title() if idx==0 else "🥈 "+user['full_name'].title() if idx==1 else "🥉 "+user['full_name'].title() if idx==2 else str(idx+1)+'. '+user['full_name'].title()}</td>
                 <td>{user['wpm']}</td>
                 <td>{user['accuracy']}</td>
             </tr>
@@ -73,7 +73,7 @@ def get_users_html_convert(user_data: list, result_image_path: str):
     </head>
     <body>
         <div>
-            <h2>CodeSchoolda typing liderlari</h2>
+            <h1>CodeSchoolda typing liderlari</h1>
             <table>
                 <tr>
                     <th>Full Name</th>
