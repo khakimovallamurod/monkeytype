@@ -19,7 +19,7 @@ def get_wpm_accuracy(username:str,time:int)->dict:
     
 
 # Read users info from csv file
-def get_user_info(file_path:str)->dict:
+def get_user_info(file_path:str)->list:
     users = []
     with open(file_path, 'r') as csv_file:
         csv_reader = csv.reader(csv_file)
@@ -72,14 +72,17 @@ def get_users_html_convert(user_data: list, result_image_path: str):
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <table>
-            <tr>
-                <th>Full Name</th>
-                <th>WPM</th>
-                <th>Accuracy</th>
-            </tr>
-            {results}
-        </table>
+        <div>
+            <h2>Typing Test Leaderboard</h2>
+            <table>
+                <tr>
+                    <th>Full Name</th>
+                    <th>WPM</th>
+                    <th>Accuracy</th>
+                </tr>
+                {results}
+            </table>
+        </div>
     </body>
     </html>
         
@@ -87,12 +90,14 @@ def get_users_html_convert(user_data: list, result_image_path: str):
     with open("index.html", "w", encoding="utf-8") as file_html:
         file_html.write(html_file_str)
 
-    hti = Html2Image()
-    hti = Html2Image(size=(600, 300))
-    hti.screenshot(
+    html_image = Html2Image()
+    html_image = Html2Image(size=(540, 450))
+    image_conv = html_image.screenshot(
         html_file='index.html',
         css_file='style.css',
-        save_as=result_image_path
+        save_as = result_image_path
     )
+    return image_conv
+
 
 
