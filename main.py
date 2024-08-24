@@ -73,7 +73,7 @@ def get_users_html_convert(user_data: list, result_image_path: str):
     </head>
     <body>
         <div>
-            <h2>Typing Test Leaderboard</h2>
+            <h2>CodeSchoolda typing liderlari</h2>
             <table>
                 <tr>
                     <th>Full Name</th>
@@ -91,7 +91,7 @@ def get_users_html_convert(user_data: list, result_image_path: str):
         file_html.write(html_file_str)
 
     html_image = Html2Image()
-    html_image = Html2Image(size=(540, 450))
+    html_image = Html2Image(size=(1920, 1080))
     image_conv = html_image.screenshot(
         html_file='index.html',
         css_file='style.css',
