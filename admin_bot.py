@@ -1,58 +1,27 @@
 import os
 from telegram import Update
-from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
-from main import get_wpm_accuracy,get_user_info,get_users_wpm_accuracy, get_users_html_convert
+from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler, Dispatcher
+import handlers
+from flask import Flask, request
 
-
-async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-
-    print(update.message.chat_id)
-    await update.message.reply_text(f'Hello {update.effective_user.first_name}')
-
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    # Send a message to the group
-    first_name = update.message.chat.first_name
-    chat_id = update.effective_chat.id
-    await context.bot.send_message(chat_id=chat_id, text=f"Assalomu aleykum {first_name}. Siz bu bot orqali typingdan natijalarni olishingiz mumkin!!!")
-
-async def send_results_to_image(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    # Send a message to the group
-    users = get_user_info('monkeytype.csv')
-    users_wpm_accuracy = get_users_wpm_accuracy(users,15)
-    image_path = 'monkeytype_results.jpg'
-    users_total_convert_image = get_users_html_convert(users_wpm_accuracy, image_path)
-    await context.bot.send_photo(chat_id=GROUP_CHAT_ID, photo=image_path)
-
-
-async def send_results(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    users = get_user_info('monkeytype.csv')
-
-    users_wpm_accuracy = get_users_wpm_accuracy(users,15)
-    results=''
-    for idx,user in enumerate(users_wpm_accuracy):
-        if idx==0:
-            results+=f'🥇 {user["full_name"]}\t WPM: {user["wpm"]} Accuracy: {user["accuracy"]}\n'
-        elif idx==1:
-            results+=f'🥈 {user["full_name"]}\t WPM: {user["wpm"]} Accuracy: {user["accuracy"]}\n'
-        elif idx==2:
-            results+=f'🥉 {user["full_name"]}\t WPM: {user["wpm"]} Accuracy: {user["accuracy"]}\n'
-        else:
-            results+=f'{idx+1}. {user["full_name"]}\t WPM: {user["wpm"]} Accuracy: {user["accuracy"]}\n'
-        
-    # Send a message to the group
-    await context.bot.send_message(chat_id=GROUP_CHAT_ID, text=results)
-# GROUP chat ID
-# GROUP_CHAT_ID =-1002190225722
-GROUP_CHAT_ID =-1001997475412
-
+app = Flask(__name__)
 TOKEN = os.environ['TOKEN']
 
 
+bot_app = ApplicationBuilder().token(TOKEN).build()
 
+bot_app.add_handler(CommandHandler("start", handlers.start))
+bot_app.add_handler(CommandHandler("sendResults", handlers.results_type))
 
-app = ApplicationBuilder().token(TOKEN).build()
-app.add_handler(CommandHandler("sendResults", send_results_to_image))
-app.add_handler(CommandHandler("start", start))
-app.add_handler(CommandHandler("hello", hello))
+bot_app.add_handler(CallbackQueryHandler(handlers.send_results_to_image, pattern='seconds:'))
 
-app.run_polling()
+@app.route(f"/", methods=['POST'])
+def webhook():
+    """Handle incoming webhook updates from Telegram"""
+    update = Update.de_json(request.get_json(force=True), bot_app.bot)
+    dispatcher = Dispatcher(bot_app.bot, None, workers=0)
+    dispatcher.process_update(update)
+    return "OK"
+
+if __name__ == "__main__":
+    app.run(debug=True)
