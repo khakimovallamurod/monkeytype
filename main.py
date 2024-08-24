@@ -6,15 +6,12 @@ def get_wpm_accuracy(username:str,time:int)->dict:
     response = requests.get(url)
     # Get the JSON data from the response
     data = response.json()
-    try:
-        time = data['data']['personalBests']['time'][str(time)][0]
-        # Get accuracy
-        accuracy = time['acc']
-        # Get wpm
-        wpm = time['wpm']
-    except KeyError:
-        accuracy = 0
-        wpm = 0
+    time = data['data']['personalBests']['time'].get(str(time), [{'0': 0}])[0]
+    # Get accuracy
+    accuracy = time.get('acc', 0)
+    # Get wpm
+    wpm = time.get('wpm', 0)
+   
     
     return {'wpm':wpm,'accuracy':accuracy}
     
@@ -38,7 +35,6 @@ def get_users_wpm_accuracy(users:dict,time:int)->dict:
     users_wpm_accuracy = {}
     for user in users:
         users_wpm_accuracy[user['username']] = get_wpm_accuracy(user['username'],time)
-        users_wpm_accuracy['full_name'] = user['full_name']
     return users_wpm_accuracy
 
 users = get_user_info('monkeytype.csv')
