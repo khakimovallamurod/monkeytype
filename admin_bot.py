@@ -6,7 +6,7 @@ from main import get_wpm_accuracy,get_user_info,get_users_wpm_accuracy, get_user
 
 async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # get group topic id
-    
+
 
 
     
@@ -51,8 +51,8 @@ async def send_results(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 # GROUP chat ID
 GROUP_CHAT_ID =-1002190225722
 
-# TOKEN = os.environ['TOKEN']
-TOKEN='1062989639:AAEQJOtpeCnAX0nM0bqTi4N7aZc0W5Nb4_8'
+TOKEN = os.environ['TOKEN']
+
 
 
 
