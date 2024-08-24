@@ -48,7 +48,7 @@ def get_users_wpm_accuracy(users:dict,time:int)->dict:
                 'accuracy': data['accuracy']
             }
         )
-    
+    users_wpm_accuracy.sort(key=lambda x: x['wpm'], reverse=True)
     return users_wpm_accuracy
 
 def get_users_html_convert(user_data: list, result_image_path: str):

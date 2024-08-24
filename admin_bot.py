@@ -2,8 +2,6 @@ import os
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 from main import get_wpm_accuracy,get_user_info,get_users_wpm_accuracy, get_users_html_convert
-from prettytable import PrettyTable
-from PIL import Image, ImageDraw, ImageFont
 
 
 async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
