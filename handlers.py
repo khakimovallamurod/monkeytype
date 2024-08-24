@@ -1,11 +1,11 @@
 import os
 from telegram import Update
-from telegram.ext import ContextTypes, CallbackContext
+from telegram.ext import  CallbackContext
 from main import get_user_info,get_users_wpm_accuracy, get_users_html_convert
 import keyboards
 GROUP_CHAT_ID =-1002190225722
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def start(update: Update, context: CallbackContext) -> None:
     first_name = update.message.chat.first_name
     chat_id = update.effective_chat.id
     await context.bot.send_message(chat_id=chat_id, text=f"Assalomu aleykum {first_name}. Siz bu bot orqali typingdan natijalarni olishingiz mumkin!!!")
@@ -14,7 +14,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 async def results_type(update: Update, context: CallbackContext):
     await update.message.reply_text(text='Monketypedan natija turini tanlang?', reply_markup=keyboards.inline_keyboard)
 
-async def send_results_to_image(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def send_results_to_image(update: Update, context: CallbackContext) -> None:
     time = update.callback_query.data.split(":")[1]
     users = get_user_info('monkeytype.csv')
     users_wpm_accuracy = get_users_wpm_accuracy(users,time)
@@ -23,7 +23,7 @@ async def send_results_to_image(update: Update, context: ContextTypes.DEFAULT_TY
     await context.bot.send_photo(chat_id=GROUP_CHAT_ID, photo=image_path, message_thread_id=2)
 
 
-async def send_results(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def send_results(update: Update, context: CallbackContext) -> None:
     users = get_user_info('monkeytype.csv')
 
     users_wpm_accuracy = get_users_wpm_accuracy(users,15)
