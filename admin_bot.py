@@ -20,7 +20,7 @@ async def send_results_to_image(update: Update, context: ContextTypes.DEFAULT_TY
     image_path = 'monkeytype_results.jpg'
     users_total_convert_image = get_users_html_convert(users_wpm_accuracy, image_path)
     
-    await context.bot.send_photo(chat_id=GROUP_CHAT_ID, photo=image_path, parse_mode='MarkdownV2')
+    await context.bot.send_photo(chat_id=GROUP_CHAT_ID, photo=image_path)
 
 
 async def send_results(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
