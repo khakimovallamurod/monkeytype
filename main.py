@@ -52,7 +52,7 @@ def get_users_wpm_accuracy(users:dict,time:int)->dict:
     users_wpm_accuracy.sort(key=lambda x: x['wpm'], reverse=True)
     return users_wpm_accuracy
 
-def get_users_html_convert(user_data: list, result_image_path: str):
+def get_users_html_convert(user_data: list, result_image_path: str, time: str):
     results = """"""
     for idx,user in enumerate(user_data):
         results += f"""
@@ -73,7 +73,7 @@ def get_users_html_convert(user_data: list, result_image_path: str):
     </head>
     <body>
         <div>
-            <h1>CodeSchoolda typing liderlari</h1>
+            <h1>CodeSchoolda typing liderlari({time} seconds)</h1>
             <table>
                 <tr>
                     <th>Full Name</th>
