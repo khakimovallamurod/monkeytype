@@ -5,6 +5,14 @@ from main import get_wpm_accuracy,get_user_info,get_users_wpm_accuracy, get_user
 
 
 async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    # get group topic id
+    
+
+
+    
+    # Print message chat id
+
+    print(update.message.chat_id)
 
     await update.message.reply_text(f'Hello {update.effective_user.first_name}')
 
@@ -20,7 +28,7 @@ async def send_results_to_image(update: Update, context: ContextTypes.DEFAULT_TY
     image_path = 'monkeytype_results.jpg'
     users_total_convert_image = get_users_html_convert(users_wpm_accuracy, image_path)
     
-    await context.bot.send_photo(chat_id=GROUP_CHAT_ID, photo=image_path)
+    await context.bot.send_photo(chat_id=GROUP_CHAT_ID, photo=image_path,message_thread_id=2)
 
 
 async def send_results(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -41,8 +49,10 @@ async def send_results(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     # Send a message to the group
     await context.bot.send_message(chat_id=GROUP_CHAT_ID, text=results)
 # GROUP chat ID
-GROUP_CHAT_ID =-1001997475412
-TOKEN = os.environ['TOKEN']
+GROUP_CHAT_ID =-1002190225722
+
+# TOKEN = os.environ['TOKEN']
+TOKEN='1062989639:AAEQJOtpeCnAX0nM0bqTi4N7aZc0W5Nb4_8'
 
 
 
