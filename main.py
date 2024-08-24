@@ -1,18 +1,21 @@
 import requests
 import csv
-username = 'naxalov'
 
 def get_wpm_accuracy(username:str,time:int)->dict:
     url = f'https://api.monkeytype.com/users/{username}/profile'
     response = requests.get(url)
     # Get the JSON data from the response
     data = response.json()
- 
-    time = data['data']['personalBests']['time'][str(time)][0]
-    # Get accuracy
-    accuracy = time['acc']
-    # Get wpm
-    wpm = time['wpm']
+    try:
+        time = data['data']['personalBests']['time'][str(time)][0]
+        # Get accuracy
+        accuracy = time['acc']
+        # Get wpm
+        wpm = time['wpm']
+    except KeyError:
+        accuracy = 0
+        wpm = 0
+    
     return {'wpm':wpm,'accuracy':accuracy}
     
 # Read users info from csv file
@@ -35,6 +38,7 @@ def get_users_wpm_accuracy(users:dict,time:int)->dict:
     users_wpm_accuracy = {}
     for user in users:
         users_wpm_accuracy[user['username']] = get_wpm_accuracy(user['username'],time)
+        users_wpm_accuracy['full_name'] = user['full_name']
     return users_wpm_accuracy
 
 users = get_user_info('monkeytype.csv')
