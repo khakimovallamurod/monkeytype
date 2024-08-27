@@ -9,5 +9,11 @@ WEBHOOK_URL = f"https://allamurod.pythonanywhere.com/"
 response = requests.get(f"https://api.telegram.org/bot{TOKEN}/setWebhook?url={WEBHOOK_URL}")
 print(response.status_code)
 bot = Bot(TOKEN)
-bot.delete_webhook()
 
+import asyncio
+
+async def main():
+    await bot.delete_webhook()
+
+if __name__ == "__main__":
+    asyncio.run(main())
