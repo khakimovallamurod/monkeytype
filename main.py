@@ -91,7 +91,7 @@ def get_users_html_convert(user_data: list, result_image_path: str, time: str):
         file_html.write(html_file_str)
 
     html_image = Html2Image()
-    html_image = Html2Image(size=(1920, 1080))
+    html_image = Html2Image(size=(540, 450))
     image_conv = html_image.screenshot(
         html_file='index.html',
         css_file='style.css',
