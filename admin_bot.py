@@ -1,27 +1,20 @@
 import os
-from telegram import Bot, Update
-from telegram.ext import Updater, CommandHandler, CallbackQueryHandler
-from flask import Flask, request
+from telegram.ext import Application, CommandHandler, CallbackQueryHandler
 import handlers
 
-app = Flask(__name__)
-TOKEN = os.environ['TOKEN']
+def main():
+    TOKEN = os.environ['TOKEN']
 
-# Initialize the bot with Updater
-updater = Updater(TOKEN)
-dispatcher = updater.dispatcher
+    # Application obyekti yaratish
+    application = Application.builder().token(TOKEN).build()
+    
+    # Handlerlarni ro'yxatdan o'tkazish
+    application.add_handler(CommandHandler("start", handlers.start))
+    application.add_handler(CommandHandler("sendResults", handlers.results_type))
+    application.add_handler(CallbackQueryHandler(handlers.send_results_to_image, pattern='seconds:'))
 
-# Register handlers
-dispatcher.add_handler(CommandHandler("start", handlers.start))
-dispatcher.add_handler(CommandHandler("sendResults", handlers.results_type))
-dispatcher.add_handler(CallbackQueryHandler(handlers.send_results_to_image, pattern='seconds:'))
+    # Botni ishga tushirish
+    application.run_polling()
 
-@app.route(f"/", methods=['POST'])
-def webhook():
-    """Handle incoming webhook updates from Telegram"""
-    update = Update.de_json(request.get_json(force=True), updater.bot)
-    dispatcher.process_update(update)
-    return "OK"
-
-if __name__ == "__main__":
-    app.run(port=8080, debug=True)
+if __name__ == '__main__':
+    main()
